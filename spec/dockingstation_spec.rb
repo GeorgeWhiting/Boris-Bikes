@@ -11,25 +11,23 @@ describe DockingStation do
     end
   end
 
-
-
-    it "Creates a new working bike object" do
-      bike = Bike.new
-      expect(bike).to be_working
-    end
+  it "Creates a new working bike object" do
+    bike = Bike.new
+    expect(bike).to be_working
+  end
 
   it "Docks a bike" do
     bike = Bike.new
     expect(subject.dock_bike(bike)).to eq "Bike docked"
   end
 
-  it "Station is already full" do
+  it "Raises an error when trying to add a bike to a full station" do
     bike = Bike.new
     subject.dock_bike(bike)
-    expect(subject.dock_bike(bike)).to eq "A bike is already there"
+    expect {subject.dock_bike(bike)}.to raise_error("A bike is already there")
   end
 
-  it "Raises an error" do
+  it "Raises an error when trying to remove a bike from an empty station" do
     expect {subject.release_bike}.to raise_error("There are no bikes here")
   end
 
