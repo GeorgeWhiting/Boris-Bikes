@@ -9,12 +9,14 @@ describe DockingStation do
   end
 
   it "Docks a bike" do
-    expect(subject.dock_bike).to eq "Bike docked"
+    bike = subject.release_bike
+    expect(subject.dock_bike(bike)).to eq "Bike docked"
   end
 
   it "Station is already full" do
-    subject.dock_bike
-    expect(subject.dock_bike).to eq "A bike is already there"
+    bike = subject.release_bike
+    subject.dock_bike(bike)
+    expect(subject.dock_bike(bike)).to eq "A bike is already there"
   end
 
 end
