@@ -23,8 +23,8 @@ describe DockingStation do
 
   it "Raises an error when trying to add a bike to a full station" do
     bike = Bike.new
-    subject.dock_bike(bike)
-    expect {subject.dock_bike(bike)}.to raise_error("A bike is already there")
+    20.times {subject.dock_bike(bike)}
+    expect {subject.dock_bike(bike)}.to raise_error("There are already 20 bikes here")
   end
 
   it "Raises an error when trying to remove a bike from an empty station" do
