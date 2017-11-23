@@ -1,4 +1,4 @@
-require "DockingStation.rb"
+require "DockingStation"
 
 describe DockingStation do
   it { is_expected.to respond_to :release_bike }
@@ -9,26 +9,43 @@ describe DockingStation do
       subject.dock_bike(bike)
       expect(subject.release_bike).to eq bike
     end
+
+    it "Raises an error when trying to remove a bike from an empty station" do
+      expect {subject.release_bike}.to raise_error("There are no bikes here")
+    end
+
+    it "Creates a new working bike object" do
+      bike = Bike.new
+      expect(bike).to be_working
+    end
+
+    it "cannot release a broken bike" do
+      bike = Bike.new
+      bike.report_broken
+      subject.dock_bike(bike)
+      expect{subject.release_bike}.to raise_error "Cannot release a broken bike"
+    end
   end
 
-  it "Creates a new working bike object" do
-    bike = Bike.new
-    expect(bike).to be_working
-  end
+  describe '#dock_bike' do
 
-  it "Docks a bike" do
-    bike = Bike.new
-    expect(subject.dock_bike(bike)).to include bike
-  end
+    it "docks a bike" do
+      bike = Bike.new
+      expect(subject.dock_bike(bike)).to include bike
+    end
 
-  it "Raises an error when trying to add a bike to a full station" do
-    bike = Bike.new
-    DockingStation::DEFAULT_CAPACITY.times {subject.dock_bike(bike)}
-    expect {subject.dock_bike(bike)}.to raise_error("Docking station is full")
-  end
+    it "raises an error when trying to add a bike to a full station" do
+      bike = Bike.new
+      DockingStation::DEFAULT_CAPACITY.times {subject.dock_bike(bike)}
+      expect {subject.dock_bike(bike)}.to raise_error("Docking station is full")
+    end
 
-  it "Raises an error when trying to remove a bike from an empty station" do
-    expect {subject.release_bike}.to raise_error("There are no bikes here")
+    it "accepts broken bikes" do
+      bike = Bike.new
+      bike.report_broken
+      expect(subject.dock_bike(bike)).to include bike
+    end
+
   end
 
   describe 'initialisation' do

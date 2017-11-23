@@ -10,6 +10,7 @@ attr_reader :capacity
 
   def release_bike
     raise "There are no bikes here" if empty?
+    raise "Cannot release a broken bike" if @bike_collection.last.broken?
     @bike_collection.pop
   end
 
