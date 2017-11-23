@@ -1,7 +1,7 @@
 require_relative 'Bike'
 class DockingStation
-
-attr_reader :bike
+DEFAULT_CAPACITY = 20
+#attr_reader :bike_collection
 
   def initialize
     @bike_collection = Array.new
@@ -13,15 +13,14 @@ attr_reader :bike
   end
 
   def dock_bike(bike)
-    raise "There are already 20 bikes here" if full?
+    raise "There are already #{DEFAULT_CAPACITY} bikes here" if full?
     @bike_collection << bike
-    return "Bike docked"
   end
 
 private
 
   def full?
-    @bike_collection.length >= 20
+    @bike_collection.length >= DEFAULT_CAPACITY
   end
 
   def empty?

@@ -18,12 +18,12 @@ describe DockingStation do
 
   it "Docks a bike" do
     bike = Bike.new
-    expect(subject.dock_bike(bike)).to eq "Bike docked"
+    expect(subject.dock_bike(bike)).to include bike
   end
 
   it "Raises an error when trying to add a bike to a full station" do
     bike = Bike.new
-    20.times {subject.dock_bike(bike)}
+    DockingStation::DEFAULT_CAPACITY.times {subject.dock_bike(bike)}
     expect {subject.dock_bike(bike)}.to raise_error("There are already 20 bikes here")
   end
 
