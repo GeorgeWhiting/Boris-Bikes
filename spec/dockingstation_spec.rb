@@ -4,11 +4,12 @@ describe DockingStation do
 
   let(:bike) { double :bike }
 
+
   it { is_expected.to respond_to :release_bike }
 
   describe '#release_bike' do
     it 'releases a bike' do
-      allow(bike).to receive(:broken?).and_return(false)
+      bike = double(:bike, broken?: false)
       subject.dock_bike(bike)
       expect(subject.release_bike).to eq bike
     end
@@ -18,8 +19,7 @@ describe DockingStation do
     end
 
     it "cannot release a broken bike" do
-      allow(bike).to receive(:report_broken)
-      allow(bike).to receive(:broken?).and_return(true)
+      bike = double(:bike, broken?: true, report_broken: true)
       bike.report_broken
       subject.dock_bike(bike)
       expect{subject.release_bike}.to raise_error "Cannot release a broken bike"
@@ -40,7 +40,7 @@ describe DockingStation do
     end
 
     it "accepts broken bikes" do
-      allow(bike).to receive(:report_broken)
+      bike = double(:bike, report_broken: true)
       bike.report_broken
       expect(subject.dock_bike(bike)).to include bike
     end
