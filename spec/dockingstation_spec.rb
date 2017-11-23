@@ -1,11 +1,14 @@
 require "DockingStation"
 
 describe DockingStation do
+
+  let(:bike) { double :bike }
+
   it { is_expected.to respond_to :release_bike }
 
   describe '#release_bike' do
     it 'releases a bike' do
-      bike = Bike.new
+      allow(bike).to receive(:broken?).and_return(false)
       subject.dock_bike(bike)
       expect(subject.release_bike).to eq bike
     end
@@ -14,13 +17,9 @@ describe DockingStation do
       expect {subject.release_bike}.to raise_error("There are no bikes here")
     end
 
-    it "Creates a new working bike object" do
-      bike = Bike.new
-      expect(bike).to be_working
-    end
-
     it "cannot release a broken bike" do
-      bike = Bike.new
+      allow(bike).to receive(:report_broken)
+      allow(bike).to receive(:broken?).and_return(true)
       bike.report_broken
       subject.dock_bike(bike)
       expect{subject.release_bike}.to raise_error "Cannot release a broken bike"
@@ -30,18 +29,18 @@ describe DockingStation do
   describe '#dock_bike' do
 
     it "docks a bike" do
-      bike = Bike.new
+      bike = double(:bike)
       expect(subject.dock_bike(bike)).to include bike
     end
 
     it "raises an error when trying to add a bike to a full station" do
-      bike = Bike.new
+      bike = double(:bike)
       DockingStation::DEFAULT_CAPACITY.times {subject.dock_bike(bike)}
       expect {subject.dock_bike(bike)}.to raise_error("Docking station is full")
     end
 
     it "accepts broken bikes" do
-      bike = Bike.new
+      allow(bike).to receive(:report_broken)
       bike.report_broken
       expect(subject.dock_bike(bike)).to include bike
     end
@@ -62,14 +61,14 @@ describe DockingStation do
 
     it 'has a variable capacity' do
       station = DockingStation.new(50)
-      50.times { station.dock_bike Bike.new }
-      expect { station.dock_bike Bike.new }.to raise_error "Docking station is full"
+      50.times { station.dock_bike double(:bike) }
+      expect { station.dock_bike double(:bike) }.to raise_error "Docking station is full"
     end
 
     it 'has a variable capacity' do
       station = DockingStation.new
-      DockingStation::DEFAULT_CAPACITY.times { station.dock_bike Bike.new }
-      expect { station.dock_bike Bike.new }.to raise_error "Docking station is full"
+      DockingStation::DEFAULT_CAPACITY.times { station.dock_bike double(:bike) }
+      expect { station.dock_bike double(:bike) }.to raise_error "Docking station is full"
     end
 
   end

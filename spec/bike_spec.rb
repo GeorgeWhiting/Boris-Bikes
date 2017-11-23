@@ -7,4 +7,9 @@ describe Bike do
     subject.report_broken
     expect(subject).to be_broken
   end
+
+  it "Creates a new working bike object" do
+    bike = subject
+    expect(bike).to be_working
+  end
 end
