@@ -4,29 +4,30 @@ DEFAULT_CAPACITY = 20
 attr_reader :capacity
 
   def initialize(capacity = DEFAULT_CAPACITY)
-    @bike_collection = Array.new
+    @bikes = Array.new
     @capacity = capacity
   end
 
   def release_bike
     raise "There are no bikes here" if empty?
-    raise "Cannot release a broken bike" if @bike_collection.last.broken?
-    @bike_collection.pop
+    raise "Cannot release a broken bike" if @bikes.last.broken?
+    @bikes.pop
   end
 
   def dock_bike(bike)
     raise "Docking station is full" if full?
-    @bike_collection << bike
+
+    @bikes << bike
   end
 
 private
 
   def full?
-    @bike_collection.length >= @capacity
+    @bikes.length >= @capacity
   end
 
   def empty?
-    @bike_collection.empty?
+    @bikes.empty?
   end
 
 end

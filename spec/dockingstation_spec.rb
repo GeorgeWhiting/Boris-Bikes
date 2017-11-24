@@ -2,9 +2,6 @@ require "DockingStation"
 
 describe DockingStation do
 
-  let(:bike) { double :bike }
-
-
   it { is_expected.to respond_to :release_bike }
 
   describe '#release_bike' do
