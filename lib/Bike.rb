@@ -1,4 +1,5 @@
 require_relative 'DockingStation'
+require_relative 'Van'
 class Bike
 
   def working?
