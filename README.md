@@ -1,6 +1,7 @@
 ## Makers Academy week 1 challenge - Boris Bikes
 
 Week 1 - Learning about OOP and testing using RSpec.
+
 Challenge - Build a system akin to London's Boris Bikes, with bike, docking station, van and repair garage objects.
 
 #### User stories implemented
